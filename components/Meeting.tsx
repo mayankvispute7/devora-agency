@@ -3,7 +3,6 @@ import { motion, Variants } from "framer-motion";
 import { Calendar, Video, Clock, ArrowRight, Activity, Sparkles } from "lucide-react";
 import { cloneElement, ReactElement } from "react";
 
-// Variants for staggered entrance
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: { 
@@ -25,7 +24,6 @@ const itemVariants: Variants = {
 export default function Meeting() {
   return (
     <section id="meeting" className="py-32 px-6 relative bg-[#05050A] flex flex-col items-center overflow-hidden">
-      {/* Background Decorative Elements */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.03),transparent_60%)] pointer-events-none z-0"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none"></div>
 
@@ -67,7 +65,6 @@ export default function Meeting() {
       >
         <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent pointer-events-none"></div>
 
-        {/* LEFT: STRATEGY VALUE PITCH */}
         <div className="w-full md:w-1/2 p-10 md:p-14 lg:p-20 border-b md:border-b-0 md:border-r border-white/5 relative">
           <motion.h3 variants={itemVariants} className="text-3xl lg:text-4xl font-black text-white mb-2 leading-snug">
             Discovery &amp; <span className="text-cyan-400">Architecture</span>
@@ -84,7 +81,6 @@ export default function Meeting() {
             ].map((spec, i) => (
               <motion.div key={i} variants={itemVariants} className="flex items-start gap-4 text-gray-300 group">
                 <div className="p-3 bg-white/5 rounded-xl border border-white/10 group-hover:scale-110 group-hover:border-cyan-500/30 transition-all duration-300 shadow-inner shrink-0 mt-1">
-                  {/* 🟢 FIXED: Added 'as any' to the properties object to resolve TypeScript overload error */}
                   {cloneElement(spec.icon as ReactElement, { 
                     className: "text-cyan-400 group-hover:text-cyan-300 transition-colors", 
                     size: 20 
@@ -98,7 +94,6 @@ export default function Meeting() {
             ))}
           </motion.div>
 
-          {/* Founder Badge */}
           <motion.div variants={itemVariants} className="mt-14 flex items-center gap-4 pt-8 border-t border-white/5">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white font-bold shadow-[0_0_15px_rgba(56,189,248,0.3)]">
               MV
@@ -110,7 +105,6 @@ export default function Meeting() {
           </motion.div>
         </div>
 
-        {/* RIGHT: THE LIVE SCHEDULING ACTION */}
         <div className="w-full md:w-1/2 p-10 md:p-14 lg:p-20 flex flex-col items-center justify-center text-center relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent pointer-events-none z-0"></div>
           
