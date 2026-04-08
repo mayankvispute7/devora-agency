@@ -1,10 +1,10 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion"; // 🟢 Added Variants import
 import { Calendar, Video, Clock, ArrowRight, Activity, Sparkles } from "lucide-react";
 import { cloneElement, ReactElement } from "react";
 
 // Variants for staggered entrance
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: { 
     opacity: 1,
@@ -12,9 +12,15 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+// 🟢 FIXED: Explicitly typed as Variants to satisfy TypeScript/Vercel
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 15, filter: "blur(5px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.4, ease: "easeOut" } }
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    filter: "blur(0px)", 
+    transition: { duration: 0.4, ease: "easeOut" } 
+  }
 };
 
 export default function Meeting() {
@@ -53,7 +59,6 @@ export default function Meeting() {
         </motion.p>
       </div>
 
-      {/* THE LIVE SCHEDULER PANEL */}
       <motion.div 
         variants={containerVariants}
         initial="hidden"
@@ -61,7 +66,6 @@ export default function Meeting() {
         viewport={{ once: true, margin: "-100px" }}
         className="w-full max-w-7xl mx-auto bg-[#0A0A10]/80 backdrop-blur-3xl border border-white/10 rounded-[3rem] overflow-hidden flex flex-col md:flex-row shadow-[0_0_80px_rgba(0,0,0,0.6)] relative z-10"
       >
-        {/* Subtle top light trail */}
         <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent pointer-events-none"></div>
 
         {/* LEFT: STRATEGY VALUE PITCH */}
@@ -91,14 +95,14 @@ export default function Meeting() {
             ))}
           </motion.div>
 
-          {/* Signed Mayank Badge */}
+          {/* Founder Badge */}
           <motion.div variants={itemVariants} className="mt-14 flex items-center gap-4 pt-8 border-t border-white/5">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center text-white font-bold shadow-[0_0_15px_rgba(56,189,248,0.3)]">
               MV
             </div>
             <div>
               <p className="text-white font-bold text-base">Mayank Vispute</p>
-              <p className="text-gray-500 text-xs uppercase tracking-widest mt-1">Founder & Chief Architect, Devora LABS</p>
+              <p className="text-gray-500 text-xs uppercase tracking-widest mt-1">Founder &amp; Chief Architect, Devora</p>
             </div>
           </motion.div>
         </div>
@@ -107,42 +111,22 @@ export default function Meeting() {
         <div className="w-full md:w-1/2 p-10 md:p-14 lg:p-20 flex flex-col items-center justify-center text-center relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent pointer-events-none z-0"></div>
           
-          {/* Animated Tech Orbs */}
-          <motion.div 
-            animate={{ scale: [1, 1.05, 1], opacity: [0.6, 0.9, 0.6] }}
-            transition={{ duration: 4, repeat: Infinity }}
-            className="absolute top-1/4 right-1/4 w-32 h-32 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none z-0"
-          ></motion.div>
-          <motion.div 
-            animate={{ scale: [1.05, 1, 1.05], opacity: [0.9, 0.6, 0.9] }}
-            transition={{ duration: 4, repeat: Infinity, delay: 2 }}
-            className="absolute bottom-1/4 left-1/4 w-32 h-32 bg-purple-500/10 rounded-full blur-[80px] pointer-events-none z-0"
-          ></motion.div>
-          
-          <motion.div variants={itemVariants} className="relative z-10 w-24 h-24 rounded-full bg-[#05050A]/80 border-2 border-cyan-500/20 flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(56,189,248,0.2)] group-hover:scale-110 group-hover:shadow-[0_0_60px_rgba(56,189,248,0.3)] transition-all duration-700">
-            {/* Spinning decorative ring */}
-            <motion.div 
-              animate={{ rotate: 360 }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-2 rounded-full border border-cyan-500/20 border-t-cyan-400 pointer-events-none"
-            />
-            <Calendar className="text-cyan-400 group-hover:text-cyan-300 transition-colors" size={36} />
+          <motion.div variants={itemVariants} className="relative z-10 w-24 h-24 rounded-full bg-[#05050A]/80 border-2 border-cyan-500/20 flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(56,189,248,0.2)]">
+            <Calendar className="text-cyan-400" size={36} />
           </motion.div>
           
           <motion.h4 variants={itemVariants} className="text-3xl font-black text-white mb-4 relative z-10">Select Your <span className="text-cyan-400">Time Slot</span></motion.h4>
           <motion.p variants={itemVariants} className="text-gray-300 text-base mb-12 max-w-sm leading-relaxed relative z-10 font-light">
-            My live availability is listed. Choose a 30-min strategy session that fits your schedule. No back-and-forth emailing.
+            My live availability is listed. Choose a 30-min strategy session that fits your schedule.
           </motion.p>
           
-          {/* 🟢 THE LIVE BOOKING BUTTON */}
           <motion.a 
-            href="https://calendly.com/your-link-here" // 👈 MAYANK: PASTE YOUR BOOKING URL HERE
+            href="https://calendly.com/your-link" // 👈 ADD YOUR LINK HERE
             target="_blank" 
             rel="noopener noreferrer"
             variants={itemVariants}
-            className="relative w-full max-w-md py-5 rounded-2xl bg-white text-black font-bold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-[1.03] flex items-center justify-center gap-2 group/btn shadow-[0_0_30px_rgba(255,255,255,0.1)] group-hover:shadow-[0_0_40px_rgba(255,255,255,0.2)] overflow-hidden"
+            className="relative w-full max-w-md py-5 rounded-2xl bg-white text-black font-bold text-lg hover:bg-gray-100 transition-all duration-300 hover:scale-[1.03] flex items-center justify-center gap-2 group/btn shadow-[0_0_30px_rgba(255,255,255,0.1)] overflow-hidden"
           >
-            {/* Rapid light shimmer */}
             <motion.div 
               animate={{ x: ["-100%", "200%"] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
