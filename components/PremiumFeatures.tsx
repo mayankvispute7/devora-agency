@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Bot, BrainCircuit, Workflow, LayoutDashboard, Sparkles, Webhook, X, TrendingUp, Zap, Activity, ChevronRight } from "lucide-react";
 
 const features = [
@@ -120,7 +120,8 @@ export default function PremiumFeatures() {
     else document.body.style.overflow = "unset";
   }, [selectedFeature]);
 
-  const modalVariants = {
+  // 🟢 FIXED: Explicitly typed as Variants
+  const modalVariants: Variants = {
     hidden: { opacity: 0, scale: 0.95, y: 30, filter: "blur(10px)" },
     visible: { 
       opacity: 1, scale: 1, y: 0, filter: "blur(0px)",
@@ -129,7 +130,8 @@ export default function PremiumFeatures() {
     exit: { opacity: 0, scale: 0.95, y: 20, filter: "blur(10px)", transition: { duration: 0.2 } }
   };
 
-  const itemVariants = {
+  // 🟢 FIXED: Explicitly typed as Variants
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 15, filter: "blur(5px)" },
     visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.4, ease: "easeOut" } }
   };
@@ -193,8 +195,6 @@ export default function PremiumFeatures() {
               </button>
 
               <div className="w-full md:w-2/5 h-64 md:h-auto relative bg-black overflow-hidden group">
-                
-                {/* 🟢 FIXED: Added Key & transform-gpu for hardware acceleration */}
                 <video 
                   key={selectedFeature.id}
                   src={selectedFeature.video} 
