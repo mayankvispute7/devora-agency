@@ -1,11 +1,17 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Send, CheckCircle, AlertTriangle, Loader2 } from "lucide-react";
 import { useState } from "react";
 
-const itemVariants = {
+// 🟢 FIXED: Explicitly typed as Variants to satisfy TypeScript/Vercel build
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 15, filter: "blur(5px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.4, ease: "easeOut" } }
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    filter: "blur(0px)", 
+    transition: { duration: 0.4, ease: "easeOut" } 
+  }
 };
 
 export default function Contact() {
@@ -32,7 +38,6 @@ export default function Contact() {
     setStatusMessage("Sending message to Mayank...");
 
     try {
-      // Send directly to Web3Forms API
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
@@ -40,11 +45,11 @@ export default function Contact() {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          // 👇 MAYANK: GET YOUR FREE KEY FROM WEB3FORMS.COM AND PASTE IT HERE 👇
-          access_key: "ae0f756f-350c-4ee2-87f8-d32685f3ce47", 
-          subject: `New Lead from ${formData.name} (${formData.business})`,
+          // 👇 GET YOUR FREE KEY FROM WEB3FORMS.COM AND PASTE IT HERE 👇
+          access_key: "YOUR_ACCESS_KEY_HERE", 
+          subject: `New Lead from ${formData.name} (Devora Website)`,
           from_name: formData.name,
-          email: formData.email, // Allows you to hit "Reply" in Gmail
+          email: formData.email, 
           message: `Phone: ${formData.phone}\n\nProject Details:\n${formData.details}`
         }),
       });
@@ -54,7 +59,7 @@ export default function Contact() {
       if (result.success) {
         setStatus("success");
         setStatusMessage("Success! Mayank will reply to your email soon.");
-        setFormData({ name: "", business: "", email: "", phone: "", details: "" }); // Clear form
+        setFormData({ name: "", business: "", email: "", phone: "", details: "" }); 
       } else {
         setStatus("error");
         setStatusMessage("Failed to send. Please email visputemayank007@gmail.com directly.");
@@ -65,22 +70,20 @@ export default function Contact() {
       setStatusMessage("Failed to send. Please email visputemayank007@gmail.com directly.");
     }
 
-    // Hide status message after 6 seconds
     setTimeout(() => {
         if (status !== "idle") setStatus("idle");
     }, 6000);
   };
 
   return (
-    <section id="contact" className="py-32 px-6 md:px-12 lg:px-8 relative bg-[#05050A] border-t border-white/5 overflow-hidden">
+    <section id="contact" className="py-32 px-6 md:px-12 lg:px-8 relative bg-[#05050A] border-t border-white/5 overflow-hidden font-sans">
       
-      {/* Background Orbs */}
+      {/* Background Decor */}
       <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-500/5 rounded-full blur-[150px] pointer-events-none z-0"></div>
       <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none z-0"></div>
 
       <div className="max-w-7xl mx-auto relative z-10 w-full">
         
-        {/* Header Section */}
         <div className="text-center mb-20">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -90,27 +93,14 @@ export default function Contact() {
           >
             LIVE SUPPORT
           </motion.div>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight mb-4"
-          >
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight mb-4">
             Let's Build <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">The Future</span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-gray-400 text-lg"
-          >
+          </h2>
+          <p className="text-gray-400 text-lg">
             Tell me about your business. Mayank will reply directly to your inbox.
-          </motion.p>
+          </p>
         </div>
 
-        {/* Form Container */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -118,12 +108,9 @@ export default function Contact() {
           transition={{ duration: 0.6 }}
           className="max-w-5xl mx-auto w-full bg-[#0A0A10]/60 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-10 md:p-14 shadow-[0_0_50px_rgba(0,0,0,0.5)] relative"
         >
-          {/* Subtle top light trail */}
           <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-purple-400 to-transparent pointer-events-none"></div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
-            
-            {/* Status Message Display (Animated) */}
             <AnimatePresence>
                 {status !== "idle" && (
                     <motion.div 
@@ -144,8 +131,7 @@ export default function Contact() {
                 )}
             </AnimatePresence>
 
-            {/* Input Grid */}
-            <motion.div variants={itemVariants} className="grid md:grid-cols-2 gap-8">
+            <motion.div variants={itemVariants} initial="hidden" animate="visible" className="grid md:grid-cols-2 gap-8">
               {[
                 { label: "Your Name", name: "name", placeholder: "John Doe", type: "text", color: "focus:border-cyan-500/50 focus:bg-cyan-500/5" },
                 { label: "Business Name", name: "business", placeholder: "Acme Corp", type: "text", color: "focus:border-cyan-500/50 focus:bg-cyan-500/5" },
@@ -167,8 +153,7 @@ export default function Contact() {
               ))}
             </motion.div>
 
-            {/* Project Details */}
-            <motion.div variants={itemVariants} className="space-y-2.5">
+            <motion.div variants={itemVariants} initial="hidden" animate="visible" className="space-y-2.5">
               <label className="text-sm font-bold text-gray-400 pl-1 uppercase tracking-widest">Project Details</label>
               <textarea 
                 name="details"
@@ -181,14 +166,14 @@ export default function Contact() {
               ></textarea>
             </motion.div>
 
-            {/* Shimmering Live Submit Button */}
             <motion.button 
               variants={itemVariants}
+              initial="hidden"
+              animate="visible"
               type="submit"
               disabled={status === "sending"}
               className="group relative w-full py-5 rounded-xl bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold text-lg hover:scale-[1.01] transition-all duration-300 shadow-[0_0_30px_rgba(139,92,246,0.2)] hover:shadow-[0_0_40px_rgba(139,92,246,0.3)] overflow-hidden flex items-center justify-center gap-2.5 disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
-              {/* Shimmer Effect */}
               <motion.div 
                 animate={{ x: ["-100%", "200%"] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
@@ -203,7 +188,6 @@ export default function Contact() {
             </motion.button>
           </form>
         </motion.div>
-        
       </div>
     </section>
   );
