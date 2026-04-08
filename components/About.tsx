@@ -1,16 +1,16 @@
 "use client";
 import { useRef, useState } from "react";
 import { motion } from "framer-motion";
+// 🟢 FIXED: Renamed Infinity to InfinityIcon to avoid clash with Framer Motion's loop property
 import { Phone, Mail, Terminal, Bot, Database, Workflow, CodeXml, Infinity as InfinityIcon } from "lucide-react";
 
-// Technical connections for the "Aura" effect
 const architectureNodes = [
   { id: 1, title: "AI Agents", icon: <Bot className="text-purple-400" size={16} />, pos: { x: "-22%", y: "-35%" } },
   { id: 2, title: "Next.js", icon: <CodeXml className="text-cyan-400" size={16} />, pos: { x: "22%", y: "-35%" } },
   { id: 3, title: "Cloud DB", icon: <Database className="text-blue-400" size={16} />, pos: { x: "35%", y: "0%" } },
   { id: 4, title: "Workflows", icon: <Workflow className="text-pink-400" size={16} />, pos: { x: "-35%", y: "0%" } },
-  // Change this line:
-{ id: 5, title: "Scalability", icon: <InfinityIcon className="text-emerald-400" size={16} />, pos: { x: "0%", y: "35%" } },
+  // 🟢 FIXED: Used InfinityIcon here
+  { id: 5, title: "Scalability", icon: <InfinityIcon className="text-emerald-400" size={16} />, pos: { x: "0%", y: "35%" } },
 ];
 
 export default function About() {
@@ -33,19 +33,14 @@ export default function About() {
       onMouseMove={handleMouseMove}
       className="py-32 px-6 relative bg-[#05050A] overflow-hidden border-t border-white/5 cursor-default"
     >
-      {/* 3D Mouse Spotlight Glow (The Aura) */}
       <div
         className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition duration-500 z-0"
         style={{ background: `radial-gradient(800px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(139,92,246,0.05), transparent 40%)` }}
       />
 
-      {/* 🟢 FIXED: Expanded to max-w-7xl to perfectly align with the Features & Trust grids */}
-<div className="max-w-7xl mx-auto w-full relative z-10">
-  <div className="grid md:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        <div className="grid md:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* ========================================== */}
-          {/* LEFT: THE ENGINEERING WOW FACTOR (No Face) */}
-          {/* ========================================== */}
           <div className="md:col-span-5 flex justify-center relative">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -54,7 +49,6 @@ export default function About() {
               transition={{ duration: 1 }}
               className="relative w-80 h-80 md:w-[400px] md:h-[400px] flex items-center justify-center bg-[#0A0A10]/40 rounded-[3rem] border border-white/5 backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.5)]"
             >
-              {/* Central Glowing "MV" Node */}
               <div className="absolute w-28 h-28 rounded-3xl bg-[#05050A] border border-purple-500/30 shadow-[0_0_50px_rgba(139,92,246,0.2)] flex flex-col items-center justify-center group overflow-hidden z-20 transition-transform duration-500 hover:scale-110">
                   <Terminal size={24} className="text-purple-400 mb-1 opacity-80" />
                   <span className="text-4xl font-black text-white relative z-10 tracking-tighter">
@@ -63,7 +57,6 @@ export default function About() {
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
 
-              {/* Interconnected Tech Architecture Mesh */}
               {architectureNodes.map((node, index) => (
                 <motion.div 
                   key={node.id}
@@ -79,7 +72,6 @@ export default function About() {
                 </motion.div>
               ))}
 
-              {/* Subtle Glowing Pulse Lines connecting the mesh */}
               <div className="absolute inset-0 z-0 overflow-hidden rounded-[3rem]">
                   <motion.div 
                     animate={{ opacity: [0, 0.5, 0] }}
@@ -95,12 +87,7 @@ export default function About() {
             </motion.div>
           </div>
 
-          {/* ========================================== */}
-          {/* RIGHT: EXACT ORIGINAL FOUNDER TEXT         */}
-          {/* ========================================== */}
           <div className="md:col-span-7">
-            
-            {/* Tag from screenshot */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -110,7 +97,6 @@ export default function About() {
               Founder & Owner
             </motion.div>
             
-            {/* Heading from screenshot */}
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -121,7 +107,6 @@ export default function About() {
               Hey, I'm Mayank Vispute.
             </motion.h2>
 
-            {/* Exact Paragraphs from screenshot */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -137,14 +122,7 @@ export default function About() {
               </p>
             </motion.div>
 
-            {/* Exact Contact Details from screenshot */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-10 border-t border-white/5 pt-8"
-            >
+            <div className="flex flex-col sm:flex-row gap-10 border-t border-white/5 pt-8">
               <div className="flex items-center gap-4 group">
                 <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
                   <Phone size={16} className="text-gray-400 group-hover:text-white transition-colors" />
@@ -164,8 +142,7 @@ export default function About() {
                   <p className="text-white text-sm">visputemayank007@gmail.com</p>
                 </div>
               </div>
-            </motion.div>
-
+            </div>
           </div>
         </div>
       </div>
