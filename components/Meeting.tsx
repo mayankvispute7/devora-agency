@@ -1,5 +1,5 @@
 "use client";
-import { motion, Variants } from "framer-motion"; // 🟢 Added Variants import
+import { motion, Variants } from "framer-motion";
 import { Calendar, Video, Clock, ArrowRight, Activity, Sparkles } from "lucide-react";
 import { cloneElement, ReactElement } from "react";
 
@@ -12,7 +12,6 @@ const containerVariants: Variants = {
   }
 };
 
-// 🟢 FIXED: Explicitly typed as Variants to satisfy TypeScript/Vercel
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 15, filter: "blur(5px)" },
   visible: { 
@@ -25,8 +24,8 @@ const itemVariants: Variants = {
 
 export default function Meeting() {
   return (
-    <section id="meeting" className="py-32 px-6 relative bg-[#05050A] flex flex-col items-center">
-      {/* Dynamic Background Aura */}
+    <section id="meeting" className="py-32 px-6 relative bg-[#05050A] flex flex-col items-center overflow-hidden">
+      {/* Background Decorative Elements */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.03),transparent_60%)] pointer-events-none z-0"></div>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-500/5 rounded-full blur-[150px] pointer-events-none"></div>
 
@@ -79,13 +78,17 @@ export default function Meeting() {
           
           <motion.div variants={containerVariants} className="space-y-7">
             {[
-              { icon: <Video/>, title: "Secure Google Meet Video", text: "flawless screen-share for technical breakdown." },
+              { icon: <Video/>, title: "Secure Google Meet Video", text: "Flawless screen-share for technical breakdown." },
               { icon: <Clock/>, title: "30 Minutes Dedicated", text: "Focused exclusively on your business bottlenecks." },
               { icon: <Activity/>, title: "Architecture Mapping", text: "We analyze your idea and map out the exact digital stack needed to scale." }
             ].map((spec, i) => (
               <motion.div key={i} variants={itemVariants} className="flex items-start gap-4 text-gray-300 group">
                 <div className="p-3 bg-white/5 rounded-xl border border-white/10 group-hover:scale-110 group-hover:border-cyan-500/30 transition-all duration-300 shadow-inner shrink-0 mt-1">
-                  {cloneElement(spec.icon as ReactElement, { className: "text-cyan-400 group-hover:text-cyan-300 transition-colors", size: 20 })}
+                  {/* 🟢 FIXED: Added 'as any' to the properties object to resolve TypeScript overload error */}
+                  {cloneElement(spec.icon as ReactElement, { 
+                    className: "text-cyan-400 group-hover:text-cyan-300 transition-colors", 
+                    size: 20 
+                  } as any)}
                 </div>
                 <div>
                   <h4 className="font-bold text-white text-lg">{spec.title}</h4>
@@ -121,7 +124,7 @@ export default function Meeting() {
           </motion.p>
           
           <motion.a 
-            href="https://calendly.com/your-link" // 👈 ADD YOUR LINK HERE
+            href="https://calendly.com/your-link" 
             target="_blank" 
             rel="noopener noreferrer"
             variants={itemVariants}
