@@ -1,10 +1,11 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion"; // 🟢 Added Variants import
 import { Sparkles, ChevronRight, LayoutGrid } from "lucide-react";
 import Link from "next/link";
 
 export default function Hero() {
-  const containerVariants = {
+  // 🟢 FIXED: Added : Variants type
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -12,9 +13,10 @@ export default function Hero() {
     }
   };
 
-  const itemVariants = {
+  // 🟢 FIXED: Added : Variants type and changed array to "easeOut"
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
-    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.8, ease: "easeOut" } }
   };
 
   return (
@@ -30,9 +32,7 @@ export default function Hero() {
           className="w-full h-full object-cover scale-105 opacity-80"
           src="/assets/videos/hero-bg.mp4" 
         />
-        {/* 🟢 FIXED: Much lighter overlay. Transparent in the middle so the video shines clearly! */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#05050A]/60 via-transparent to-[#05050A]"></div>
-        {/* Subtle color tint to match the branding without crushing the blacks */}
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 to-cyan-500/5 mix-blend-overlay"></div>
       </div>
 
@@ -65,7 +65,7 @@ export default function Hero() {
         {/* Subheadline */}
         <motion.p variants={itemVariants} className="text-xl md:text-2xl text-gray-300 font-medium tracking-wide mb-12 flex items-center justify-center gap-4">
           <span className="w-8 h-[2px] bg-gradient-to-r from-transparent to-purple-500"></span>
-          Websites, Apps & Systems
+          Websites, Apps &amp; Systems
           <span className="w-8 h-[2px] bg-gradient-to-l from-transparent to-cyan-500"></span>
         </motion.p>
 
