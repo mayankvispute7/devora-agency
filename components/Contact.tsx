@@ -29,32 +29,37 @@ export default function Contact() {
     setStatusMessage("Initializing protocol...");
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      // 🟢 FIXED: Switched to Formspree AJAX endpoint using your specific ID
+      const response = await fetch("https://formspree.io/f/mgongbpj", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        headers: { 
+          "Content-Type": "application/json", 
+          "Accept": "application/json" 
+        },
         body: JSON.stringify({
-          access_key: "YOUR_ACCESS_KEY_HERE", // 👈 Web3Forms key here
-          subject: `New Priority Lead: ${formData.name}`,
-          from_name: formData.name,
+          name: formData.name,
+          business: formData.business,
           email: formData.email, 
-          message: `Phone: ${formData.phone}\n\nProject Details:\n${formData.details}`
+          phone: formData.phone,
+          message: formData.details,
+          subject: `New Priority Lead: ${formData.name} from ${formData.business || 'Unknown'}`
         }),
       });
 
-      const result = await response.json();
-
-      if (result.success) {
+      if (response.ok) {
         setStatus("success");
         setStatusMessage("Transmission successful. Mayank will review shortly.");
         setFormData({ name: "", business: "", email: "", phone: "", details: "" }); 
       } else {
         setStatus("error");
-        setStatusMessage("Transmission failed. Please try again.");
+        setStatusMessage("Transmission failed. Please check your connection and try again.");
       }
     } catch (error) {
       setStatus("error");
       setStatusMessage("Network error. Please try again.");
     }
+    
+    // Clear the status message after 6 seconds
     setTimeout(() => { setStatus("idle"); }, 6000);
   };
 
@@ -116,7 +121,6 @@ export default function Contact() {
                 )}
             </AnimatePresence>
 
-            {/* 🟢 YOUR PERSONALIZED PLACEHOLDERS ADDED HERE */}
             <motion.div variants={formStagger} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid md:grid-cols-2 gap-6 lg:gap-8">
               {[
                 { label: "Your Name", name: "name", placeholder: "Mayank Vispute", type: "text" },
