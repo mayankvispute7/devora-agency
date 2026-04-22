@@ -31,13 +31,17 @@ const services = [
 
 export default function Services() {
   return (
-    <section id="services" className="py-32 px-6 relative z-10 bg-[#05050A]">
+    // 🟢 FIXED: Removed bg-[#05050A] and added bg-transparent so the global morphing dots show through
+    <section id="services" className="py-32 px-6 relative z-10 bg-transparent overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20 flex flex-col items-center">
-          <div className="inline-block px-4 py-1.5 mb-4 rounded-full border border-white/10 bg-white/5 text-gray-300 text-xs font-bold uppercase tracking-widest">
+          <div className="inline-block px-4 py-1.5 mb-4 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs font-bold uppercase tracking-widest">
             Our Expertise
           </div>
-          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">Everything You Need To <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Dominate Digital</span></h2>
+          <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight text-white">
+            Whatever You Need. <br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">We Build It.</span>
+          </h2>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -48,13 +52,17 @@ export default function Services() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`p-8 rounded-3xl bg-white/[0.02] border border-white/5 backdrop-blur-sm transition-all duration-500 group ${service.glow}`}
+              // 🟢 FIXED: Added backdrop-blur-xl for extreme glassmorphism
+              className={`relative p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-xl transition-all duration-500 group ${service.glow}`}
             >
-              <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 group-hover:scale-110 transition-transform duration-500">
+              {/* Optional: Add a subtle inner gradient on hover */}
+              <div className="absolute inset-0 bg-gradient-to-b from-white/[0.05] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none"></div>
+
+              <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 border border-white/10 group-hover:scale-110 transition-transform duration-500 relative z-10 shadow-inner">
                 {service.icon}
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white">{service.title}</h3>
-              <p className="text-sm text-gray-400 leading-relaxed font-light">{service.description}</p>
+              <h3 className="text-xl font-bold mb-3 text-white relative z-10">{service.title}</h3>
+              <p className="text-sm text-gray-400 leading-relaxed font-light relative z-10">{service.description}</p>
             </motion.div>
           ))}
         </div>

@@ -1,27 +1,36 @@
 @import "tailwindcss";
 
+@theme {
+  /* This tells Tailwind to use Jakarta as the default text everywhere */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  
+  /* This creates the special class for your elegant italic text */
+  --font-playfair: var(--font-playfair), Georgia, serif;
+}
+
+/* ... keep any other custom css you had below here ... */
+
+/* Custom Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: #05050A;
-  color: white;
-  overflow-x: hidden;
+  color: #ffffff;
 }
 
-.glass-nav {
-  background-color: rgba(5, 5, 10, 0.5);
-  backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+/* Hide scrollbar for cleaner UI */
+::-webkit-scrollbar {
+  width: 8px;
 }
-
-.neon-text {
-  text-shadow: 0 0 20px rgba(139, 92, 246, 0.5), 0 0 40px rgba(56, 189, 248, 0.3);
+::-webkit-scrollbar-track {
+  background: #05050A;
 }
-
-.glow-button {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
-  transition: all 0.3s ease;
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
 }
-
-.glow-button:hover {
-  box-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
-  transform: translateY(-2px);
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

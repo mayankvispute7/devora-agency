@@ -1,132 +1,101 @@
 "use client";
-import { motion, Variants } from "framer-motion"; // 🟢 Added Variants import
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { motion } from "framer-motion";
 
-const DevoraIcon = () => {
-  // 🟢 FIXED: Explicitly typed as Variants and changed ease array to "easeOut"
-  const iconVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.8, rotateY: -180 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
-      rotateY: 0,
-      transition: { 
-        duration: 1.5, 
-        ease: "easeOut", // 🟢 FIXED: Removed the number array causing the crash
-        delay: 0.2 
-      }
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    setIsOpen(false); 
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <motion.div
-      className="relative w-9 h-9 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300"
-      initial="hidden"
-      animate="visible"
-      variants={iconVariants}
-      style={{ transformStyle: 'preserve-3d', perspective: '1000px' }} 
-    >
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-        <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-[pulse_3s_ease-in-out_infinite] shadow-[0_0_15px_3px_rgba(56,189,248,0.7)]"></div>
-      </div>
-
-      <svg
-        viewBox="0 0 100 100"
-        className="w-full h-full"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <motion.path
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.4 }}
-          d="M50 15L93.3013 40V60L50 85L6.69873 60V40L50 15Z"
-          stroke="url(#baseGradient)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          className="opacity-90 mix-blend-lighten"
-        />
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-[#0A0A10]/80 backdrop-blur-xl border-b border-white/5 py-4 shadow-2xl" : "bg-transparent py-6"}`}>
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         
-        <motion.path
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, delay: 0.6 }}
-          d="M38 42L28 50L38 58M62 42L72 50L62 58"
-          stroke="#fff"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="opacity-70 group-hover:opacity-100 transition-opacity"
-        />
-
-        <motion.path
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 1.5, delay: 0.8 }}
-          d="M50 35V65M35 50H65"
-          stroke="url(#focusGradient)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          className="opacity-60"
-        />
-
-        <defs>
-          <linearGradient id="baseGradient" x1="0" y1="50" x2="100" y2="50" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#a855f7" />
-            <stop offset="1" stopColor="#22d3ee" stopOpacity="0.4" />
-          </linearGradient>
-          <linearGradient id="focusGradient" x1="50" y1="35" x2="50" y2="65" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#22d3ee" stopOpacity="0.1" />
-            <stop offset="0.5" stopColor="#22d3ee" />
-            <stop offset="1" stopColor="#22d3ee" stopOpacity="0.1" />
-          </linearGradient>
-        </defs>
-      </svg>
-      
-      <div className="absolute inset-0 rounded-full bg-cyan-500/10 blur-[20px] pointer-events-none group-hover:bg-purple-500/10 transition-colors duration-500"></div>
-    </motion.div>
-  );
-};
-
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <motion.nav 
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between backdrop-blur-md bg-[#05050A]/60 border-b border-white/5"
-    >
-      <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
-        
-        <Link href="/" className="flex items-center gap-3.5 group">
-          <DevoraIcon />
-          <span className="text-3xl font-black tracking-tighter text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all duration-300">
-            Devora<span className="text-cyan-400">.</span>
+        {/* 🟢 NEW UNIFIED 3D LOGO: The Miniature Morphing Tesseract */}
+        <Link href="/" onClick={(e) => scrollToSection(e, 'top')} className="flex items-center gap-3 group">
+          <div className="relative w-8 h-8 flex items-center justify-center perspective-[300px]">
+            {/* Cyan morphing box */}
+            <motion.div
+              animate={{ rotateX: [0, 180, 360], rotateY: [0, 180, 360], borderRadius: ["10%", "50%", "10%"] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 border-[2px] border-cyan-400 group-hover:shadow-[0_0_15px_rgba(34,211,238,0.6)] transition-shadow"
+            />
+            {/* Purple morphing box */}
+            <motion.div
+              animate={{ rotateX: [360, 180, 0], rotateY: [0, 180, 360], borderRadius: ["50%", "10%", "50%"] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 border-[2px] border-purple-500 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.6)] transition-shadow"
+            />
+            {/* Core */}
+            <div className="absolute w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_10px_#fff] group-hover:scale-150 transition-transform duration-300 animate-pulse" />
+          </div>
+          
+          <span className="text-2xl font-bold uppercase tracking-widest text-white group-hover:text-gray-200 transition-colors">
+            Devora<span className="text-cyan-400 font-playfair italic lowercase tracking-normal text-3xl leading-none">.</span>
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
-          <Link href="#features" className="relative hover:text-cyan-400 transition-colors group-nav">
-            Capabilities
-            <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-cyan-400 transition-all duration-300 group-nav-hover:w-full"></span>
-          </Link>
-          <Link href="#process" className="relative hover:text-purple-400 transition-colors group-nav">
-            Process
-            <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-purple-400 transition-all duration-300 group-nav-hover:w-full"></span>
-          </Link>
-          <Link href="#pricing" className="relative hover:text-cyan-400 transition-colors group-nav">
-            Pricing
-            <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-cyan-400 transition-all duration-300 group-nav-hover:w-full"></span>
-          </Link>
+        {/* 🟢 Desktop Links - Added 'About' */}
+        <div className="hidden md:flex items-center gap-8">
+          <a href="#capabilities" onClick={(e) => scrollToSection(e, 'capabilities')} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">Capabilities</a>
+          <a href="#process" onClick={(e) => scrollToSection(e, 'process')} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">Process</a>
+          <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">Pricing</a>
+          <a href="#about" onClick={(e) => scrollToSection(e, 'about')} className="text-sm font-medium text-gray-300 hover:text-white transition-colors cursor-pointer">About</a>
         </div>
 
-        <Link href="#meeting" className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600/10 to-cyan-600/10 border border-white/10 hover:border-purple-500/30 text-white text-sm font-bold transition-all backdrop-blur-md shadow-[0_0_15px_rgba(0,0,0,0.3)] hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] hover:scale-[1.03]">
-          Let's Talk
-        </Link>
+        <div className="hidden md:flex">
+          <a 
+            href="#contact" 
+            onClick={(e) => scrollToSection(e, 'contact')}
+            className="px-6 py-2.5 rounded-full bg-white/5 border border-white/10 text-white font-semibold text-sm hover:bg-white hover:text-black transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] cursor-pointer"
+          >
+            Let's Talk
+          </a>
+        </div>
+
+        <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
-    </motion.nav>
+
+      {/* 🟢 Mobile Menu Dropdown - Added 'About' */}
+      {isOpen && (
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute top-full left-0 w-full bg-[#0A0A10]/95 backdrop-blur-3xl border-b border-white/5 py-6 px-6 flex flex-col gap-6 md:hidden shadow-2xl"
+        >
+          <a href="#capabilities" onClick={(e) => scrollToSection(e, 'capabilities')} className="text-lg font-medium text-gray-300 hover:text-white">Capabilities</a>
+          <a href="#process" onClick={(e) => scrollToSection(e, 'process')} className="text-lg font-medium text-gray-300 hover:text-white">Process</a>
+          <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} className="text-lg font-medium text-gray-300 hover:text-white">Pricing</a>
+          <a href="#about" onClick={(e) => scrollToSection(e, 'about')} className="text-lg font-medium text-gray-300 hover:text-white">About</a>
+          <a 
+            href="#contact" 
+            onClick={(e) => scrollToSection(e, 'contact')}
+            className="w-full py-4 rounded-xl bg-white text-black text-center font-bold text-lg shadow-[0_0_30px_rgba(255,255,255,0.1)]"
+          >
+            Let's Talk
+          </a>
+        </motion.div>
+      )}
+    </nav>
   );
 }
