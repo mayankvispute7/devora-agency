@@ -1,39 +1,45 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import ProblemSolution from "@/components/ProblemSolution";
-import PremiumFeatures from "@/components/PremiumFeatures"; 
-import InteractiveFeatures from "@/components/InteractiveFeatures";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import DigitalMenuPromo from "@/components/DigitalMenuPromo";
-import Process from "@/components/Process";
-import Pricing from "@/components/Pricing";
-import About from "@/components/About";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import CoreFeatures from "@/components/CoreFeatures"; 
+import ImpactShowcase from "@/components/ImpactShowcase"; 
+import IndustryExplorer from "@/components/IndustryExplorer"; 
+import Process from "@/components/Process"; 
+import Pricing from "@/components/Pricing"; 
+//import Testimonials from "@/components/Testimonials"; 
+import Contact from "@/components/Contact"; 
 import StructuredDots from "@/components/StructuredDots"; 
 
 export default function Home() {
   return (
-    <main className="bg-[#05050A] min-h-screen selection:bg-purple-500/30 overflow-clip font-sans relative">
+    <main className="bg-[#03010A] min-h-screen text-white font-sans antialiased overflow-x-clip relative">
       
-      {/* 🟢 THIS SITS IN THE BACKGROUND OF EVERY SINGLE SECTION */}
-      <StructuredDots />
-
-      {/* 🟢 Relative z-10 ensures your content stays on top of the 3D globe */}
-      <div className="relative z-10">
-        <Navbar />
-        <Hero />
-        <ProblemSolution />
-        <PremiumFeatures /> 
-        <InteractiveFeatures />
-        <WhyChooseUs /> 
-        <DigitalMenuPromo />
-        <Process />
-        <Pricing />
-        <About />
-        <Contact />
-        <Footer />
+      {/* 1. Base Layer: The Structured Dots */}
+      <div className="fixed inset-0 z-0">
+        <StructuredDots />
       </div>
+
+      {/* 2. 🟢 The Gemini Blue Glow (Layered ON TOP of dots, fading to transparent) */}
+      <div className="fixed inset-0 pointer-events-none z-[1]" style={{
+        background: `radial-gradient(circle at 50% 50%, rgba(20, 35, 75, 0.7) 0%, transparent 70%)`
+      }} />
+      
+      {/* 3. Navbar locked to the top */}
+      <div className="absolute top-0 left-0 w-full z-[100]">
+        <Navbar />
+      </div>
+      
+      {/* 4. Page Content (Sits above the background and glow) */}
+      <div className="relative z-10">
+        <Hero />
+        <ImpactShowcase />
+        <CoreFeatures />
+        <IndustryExplorer />
+        <Process /> 
+        <Pricing />
+        
+        <Contact />
+      </div>
+      
     </main>
   );
 }

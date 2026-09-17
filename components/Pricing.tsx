@@ -1,112 +1,124 @@
 "use client";
 import { motion } from "framer-motion";
-import { CheckCircle2, ChevronRight } from "lucide-react";
+import { CheckCircle2, Zap, Star, Shield } from "lucide-react";
 import Link from "next/link";
 
-const tiers = [
+const PLANS = [
   {
-    name: "Growth Engine",
-    description: "Perfect for scaling businesses that need a high-converting digital presence and automated lead capture.",
-    features: [
-      "Custom Premium Website",
-      "Basic AI Chatbot Integration",
-      "Mobile Responsive Design",
-      "SEO Optimization",
-      "Standard Analytics Dashboard"
-    ]
+    name: "VALIDATION MVP",
+    desc: "For startups needing to test an idea fast and secure funding.",
+    price: "Custom",
+    icon: <Zap size={24} className="text-cyan-400" />,
+    color: "from-cyan-400 to-cyan-600",
+    features: ["Core Feature Development", "Responsive UI/UX Design", "Basic Auth & Database", "2-3 Week Delivery"],
+    recommended: false,
   },
   {
-    name: "Enterprise System",
-    description: "Full-scale digital transformation. Custom software, complex integrations, and advanced AI workflows.",
-    features: [
-      "Complex Web App Development",
-      "Advanced AI Agent Workflows",
-      "Custom CRM & Internal Tools",
-      "API Development & Integration",
-      "Dedicated 24/7 Support Channel"
-    ],
-    popular: true
+    name: "DIGITAL ARCHITECTURE",
+    desc: "For businesses ready to automate workflows and scale operations.",
+    price: "Premium",
+    icon: <Star size={24} className="text-purple-400" />,
+    color: "from-purple-400 to-purple-600",
+    features: ["Custom Web & App Platform", "AI/LLM Integration", "Advanced Admin Dashboard", "Payment & CRM Integrations", "Dedicated Project Manager"],
+    recommended: true,
+  },
+  {
+    name: "ENTERPRISE SCALE",
+    desc: "For massive systems requiring high security and complex data pipelines.",
+    price: "Bespoke",
+    icon: <Shield size={24} className="text-pink-400" />,
+    color: "from-pink-400 to-pink-600",
+    features: ["Microservices Architecture", "Custom AI Model Fine-Tuning", "Enterprise Security & DevOps", "Unlimited Revisions", "24/7 SLA Support"],
+    recommended: false,
   }
 ];
 
 export default function Pricing() {
   return (
-    <section id="pricing" className="py-24 md:py-32 relative z-10 bg-transparent px-4 sm:px-6">
+    <section id="pricing" className="py-24 md:py-32 px-4 sm:px-6 relative z-10 font-sans">
       <div className="max-w-7xl mx-auto">
         
-        <div className="text-center mb-16 flex flex-col items-center">
+        {/* HEADING */}
+        <div className="text-center mb-20 flex flex-col items-center">
           <motion.div 
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="inline-block px-5 py-2 mb-6 rounded-full border border-purple-500/30 bg-[#0A0A10]/80 text-purple-300 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] shadow-[0_4px_24px_rgba(139,92,246,0.3)] backdrop-blur-xl"
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-[10px] md:text-xs font-bold uppercase tracking-widest"
           >
+            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
             Investment
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ delay: 0.1, duration: 0.8 }}
-            className="text-4xl md:text-5xl lg:text-7xl font-semibold mb-6 tracking-tighter text-white"
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight"
           >
-            Custom Solutions For <br className="hidden md:block" />
-            <span className="font-playfair italic font-medium text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 pr-2">
-              Serious Growth
-            </span>
+            PARTNERSHIP <span className="font-playfair italic font-medium text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">TIERS.</span>
           </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-gray-400 text-lg lg:text-xl max-w-2xl font-light"
-          >
-            We don't do cookie-cutter pricing. We build exact architectures to solve your specific business bottlenecks. Let's discuss your needs.
-          </motion.p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {tiers.map((tier, index) => (
+        {/* PRICING CARDS */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {PLANS.map((plan, i) => (
             <motion.div
-              key={tier.name}
-              initial={{ opacity: 0, y: 50, rotateX: -10 }}
-              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ delay: index * 0.2, duration: 0.8, type: "spring", bounce: 0.3 }}
-              className={`relative flex flex-col p-8 md:p-12 overflow-hidden rounded-[2.5rem] bg-white/[0.02] backdrop-blur-3xl border ${tier.popular ? 'border-cyan-500/40 shadow-[0_20px_60px_rgba(34,211,238,0.15)]' : 'border-white/10'} shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] transition-all duration-500 hover:bg-white/[0.04]`}
+              key={plan.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.15 }}
+              className={`relative group rounded-[2rem] bg-[#0A0A0E] border p-8 flex flex-col transition-all duration-500 hover:-translate-y-2
+                ${plan.recommended ? 'border-purple-500/50 shadow-[0_0_30px_rgba(168,85,247,0.15)]' : 'border-white/10 hover:border-white/30'}
+              `}
             >
-              {tier.popular && (
-                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-cyan-500 to-purple-500"></div>
+              {plan.recommended && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-bold tracking-widest uppercase px-4 py-1 rounded-full shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                  Most Popular
+                </div>
               )}
-              
-              <h3 className="text-3xl font-semibold tracking-tight text-white mb-4">{tier.name}</h3>
-              <p className="text-gray-400 mb-8 font-light leading-relaxed">{tier.description}</p>
-              
-              <div className="space-y-4 mb-10 flex-grow">
-                {tier.features.map((feature) => (
-                  <div key={feature} className="flex items-start gap-3">
-                    <CheckCircle2 className="text-cyan-400 shrink-0 mt-0.5" size={20} />
-                    <span className="text-gray-300 font-light">{feature}</span>
-                  </div>
-                ))}
+
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-[#05050A] border border-white/10 flex items-center justify-center shadow-inner group-hover:scale-110 transition-transform duration-300">
+                  {plan.icon}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white tracking-wide uppercase">{plan.name}</h3>
+                </div>
               </div>
 
-              {/* 🟢 FIXED: The button now explicitly links to #contact, and has smooth scroll behavior */}
+              <div className="mb-6">
+                <p className="text-gray-400 text-sm leading-relaxed">{plan.desc}</p>
+              </div>
+
+              <div className="mb-8 pb-8 border-b border-white/5">
+                <span className="text-4xl font-black text-white tracking-tight">{plan.price}</span>
+              </div>
+
+              <ul className="flex flex-col gap-4 mb-10 flex-grow">
+                {plan.features.map((feat, idx) => (
+                  <li key={idx} className="flex items-start gap-3 text-gray-300 text-sm">
+                    <CheckCircle2 size={18} className={plan.recommended ? "text-purple-400" : "text-gray-500"} />
+                    <span>{feat}</span>
+                  </li>
+                ))}
+              </ul>
+
               <Link 
-                href="#contact" 
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className={`w-full py-4 rounded-xl font-semibold text-lg tracking-wide flex items-center justify-center gap-2 transition-all duration-300 ${
-                  tier.popular 
-                  ? 'bg-white text-black hover:scale-[1.02] shadow-[0_0_30px_rgba(255,255,255,0.2)]' 
-                  : 'bg-white/5 text-white border border-white/10 hover:bg-white/10 hover:scale-[1.02]'
+                href="#contact"
+                className={`w-full py-4 rounded-xl font-bold text-sm tracking-wide text-center transition-all ${
+                  plan.recommended 
+                    ? 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-[1.02]' 
+                    : 'bg-[#05050A] border border-white/20 text-white hover:bg-white/5'
                 }`}
               >
-                Let's Talk <ChevronRight size={18} />
+                Inquire Now
               </Link>
+
+              {/* Glowing bottom line */}
+              <div className="absolute bottom-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className={`absolute top-0 left-1/4 w-1/2 h-full bg-gradient-to-r ${plan.color} rounded-t-full shadow-[0_0_10px_currentColor]`} />
+              </div>
             </motion.div>
           ))}
         </div>
